@@ -8,12 +8,6 @@ import time
 
 gamepad = vg.VX360Gamepad()
 
-gamepad.press_button(button=vg.XUSB_BUTTON.XUSB_GAMEPAD_A)
-gamepad.update()
-time.sleep(0.5)
-
-
-
 def fetch_and_update_control(databroker_host, databroker_port, output_file, interval=1, verbose=False):
 
     # Connect to Kuksa Data Broker
@@ -30,25 +24,42 @@ def fetch_and_update_control(databroker_host, databroker_port, output_file, inte
     while True:
         # Fetch specific data points from the Data Broker
         # speed = client.get_current_values(['Vehicle.Speed']).get('Vehicle.Speed', {}).value
-        brake_position = client.get_current_values(['Vehicle.Chassis.Brake.PedalPosition']).get(
-            'Vehicle.Chassis.Brake.PedalPosition', {}).value
-        accel_position = client.get_current_values(['Vehicle.Chassis.Accelerator.PedalPosition']).get(
-            'Vehicle.Chassis.Accelerator.PedalPosition', {}).value
-        steering_angle = client.get_current_values(['Vehicle.Chassis.Axle.Row1.SteeringAngle']).get(
-            'Vehicle.Chassis.Axle.Row1.SteeringAngle', {}).value
-        gear = client.get_current_values(['Vehicle.Powertrain.Transmission.CurrentGear']).get(
-            'Vehicle.Powertrain.Transmission.CurrentGear', {}).value
+        if client.get_current_values(['Vehicle.Chassis.Brake.PedalPosition']).get(
+            'Vehicle.Chassis.Brake.PedalPosition'):
+            brake_position = client.get_current_values(['Vehicle.Chassis.Brake.PedalPosition']).get(
+            'Vehicle.Chassis.Brake.PedalPosition').value
+        else:
+            brake_position = 0
 
-        if current_gear > gear:
-            print("down")
+        if client.get_current_values(['Vehicle.Chassis.Accelerator.PedalPosition']).get(
+            'Vehicle.Chassis.Accelerator.PedalPosition') :
+            accel_position = client.get_current_values(['Vehicle.Chassis.Accelerator.PedalPosition']).get(
+            'Vehicle.Chassis.Accelerator.PedalPosition').value
+        else:
+            accel_position = 0
+
+        if client.get_current_values(['Vehicle.Chassis.Axle.Row1.SteeringAngle']).get(
+            'Vehicle.Chassis.Axle.Row1.SteeringAngle'):
+            steering_angle = client.get_current_values(['Vehicle.Chassis.Axle.Row1.SteeringAngle']).get(
+            'Vehicle.Chassis.Axle.Row1.SteeringAngle').value
+        else:
+            steering_angle = 0
+
+        if client.get_current_values(['Vehicle.Powertrain.Transmission.CurrentGear']).get(
+            'Vehicle.Powertrain.Transmission.CurrentGear', {}):
+            gear = client.get_current_values(['Vehicle.Powertrain.Transmission.CurrentGear']).get(
+            'Vehicle.Powertrain.Transmission.CurrentGear', {}).value
+        else:
+            gear = 0
+
+        if current_gear > gear:            
             current_gear = gear
             gamepad.press_button(button=vg.XUSB_BUTTON.XUSB_GAMEPAD_X)
             gamepad.update()
             time.sleep(0.2)
             gamepad.release_button(button=vg.XUSB_BUTTON.XUSB_GAMEPAD_X)
             gamepad.update()
-        elif current_gear < gear:
-            print("up")
+        elif current_gear < gear:            
             current_gear = gear
             gamepad.release_button(button=vg.XUSB_BUTTON.XUSB_GAMEPAD_A)
             gamepad.update()
