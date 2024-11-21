@@ -7,7 +7,6 @@ from kuksa_client.grpc import VSSClient, Datapoint
 import tensorflow as tf
 from tensorflow.keras.models import load_model
 from tensorflow.keras.losses import MeanSquaredError
-# import RPi.GPIO as GPIO
 
 CUTOFF = 2  # Anomaly cutoff percentage
 
@@ -105,9 +104,6 @@ def fetch_store_and_predict(databroker_host, databroker_port, write_file, output
                     is_anomaly = abs(deviation) > CUTOFF 
                     print(f"Anomaly: {is_anomaly}")
 
-                    # if is_anomaly and led:
-                        # blink_led()
-
                     # Publish anomaly status to a new topic in the Kuksa Data Broker
                     client.set_current_values({
                          "Vehicle.Analytics.Anamoly": Datapoint(is_anomaly)
@@ -122,7 +118,6 @@ def fetch_store_and_predict(databroker_host, databroker_port, write_file, output
         except KeyboardInterrupt:
             print("\nShutting down...")
             client.disconnect()
-            # cleanup_gpio()
             sys.exit(0)
 
 
@@ -157,10 +152,6 @@ if __name__ == "__main__":
         help='Time interval (in seconds) between polling data (default: 0.1 second)'
     )
     parser.add_argument(
-        '-l', '--led', type=bool, default=False,
-        help='Whether to turn on indicator led when there is an anomaly'
-    )
-    parser.add_argument(
         '--verbose', action='store_true',
         help='Print telemetry data to stdout'
     )
@@ -174,6 +165,5 @@ if __name__ == "__main__":
         output_file=args.output,
         model_file=args.model,
         interval=args.interval,
-        led = args.led,
         verbose=args.verbose
     )
