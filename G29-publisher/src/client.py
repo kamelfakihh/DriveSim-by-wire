@@ -22,9 +22,6 @@ def publish_control_signals(databroker_host, databroker_port, verbose=False):
     databroker_port (int)    : Databroker instance port
     verbose         (boolean): Prints incoming data to STDOUT
 
-    # Raises:
-    # ValueError: If either length or width is negative.
-
     Example:
     >>> publish_control_signals(127.0.0.1, 5555, True)
     """
