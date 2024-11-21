@@ -14,7 +14,7 @@ if data_dict.get('my_input', -1) != my_input:
 # How to run it
 
 1. Make sure to have docker or podman installed
-2. Make sure you Kuksa databrocker is running. You can the following command to run the databroker locally.
+2. Make sure you Kuksa databroker is running. You can the following command to run the databroker locally.
 
 ```
 docker run -it --rm --name Server --network host ghcr.io/eclipse-kuksa/kuksa-databroker:main --insecure
