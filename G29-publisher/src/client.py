@@ -114,7 +114,7 @@ def main():
     cli_parser = argparse.ArgumentParser(description=description)
 
     cli_parser.add_argument(
-        '-th', type=str, dest='databroker_host', default='localhost',
+        '-th', type=str, dest='databroker_host', default='192.168.1.99',
         help='hostname of the kuksa databroker instance')
     cli_parser.add_argument(
         '-tp', type=str, dest='databroker_port', default=55555,
