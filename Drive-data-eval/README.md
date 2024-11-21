@@ -1,6 +1,4 @@
-# README.md
-
-## **Data Evaluation Client**
+# **Data Evaluation Client**
 
 This script fetches telemetry data from the **Kuksa Data Broker**, performs anomaly detection using a pre-trained LSTM/GRU TensorFlow model, and publishes the results to a new topic in the data broker. Optionally, it logs telemetry data to a JSON file for further analysis.
 
