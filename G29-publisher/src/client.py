@@ -31,6 +31,10 @@ def read_mem(databroker_host, databroker_port, verbose=False):
 
     data_dict = {}
 
+    shift_up_high = False
+    shift_down_high = False
+    current_gear = 0
+
     running = True
     while running:
         for event in pygame.event.get():
@@ -42,19 +46,34 @@ def read_mem(databroker_host, databroker_port, verbose=False):
             data_dict["steering"] = steering
             client.set_current_values({'Vehicle.Chassis.Axle.Row1.SteeringAngle': Datapoint(data_dict['steering'])})
 
-        throttle = joystick.get_axis(2)
+        throttle = joystick.get_axis(1)
         if data_dict.get('throttle', -1) != throttle:
             data_dict["throttle"] = throttle
             client.set_current_values({'Vehicle.Chassis.Accelerator.PedalPosition': Datapoint(100 - min(100, max(0, data_dict['throttle'] * 100)))})
 
-        brake = joystick.get_axis(3)
-        throttle = joystick.get_axis(2)
+        brake = joystick.get_axis(2)
         if data_dict.get('brake', -1) != brake:
             data_dict["brake"] = brake
             client.set_current_values({'Vehicle.Chassis.Brake.PedalPosition': Datapoint(100 - min(100, max(0, data_dict['brake'] * 100)))})
 
-        # shift_up = joystick.get_button(4)
-        # shift_down = joystick.get_button(5)
+        shift_up = joystick.get_button(4)
+        shift_down = joystick.get_button(5)
+
+        if not shift_up_high and shift_up == 1 :
+            shift_up_high = 1
+            current_gear += 1
+        elif shift_up_high and shift_up == 0:
+            shift_up_high = 0
+
+        if not shift_down_high and shift_down == 1 :
+            shift_down_high = 1
+            current_gear -= 1
+        elif shift_down_high and shift_down == 0:
+            shift_down_high = 0
+
+        if data_dict.get('gear', 0) != current_gear:
+            data_dict["gear"] = current_gear
+            client.set_current_values({'Vehicle.Powertrain.Transmission.CurrentGear': Datapoint(current_gear)})
 
         if verbose :
             print(data_dict)
