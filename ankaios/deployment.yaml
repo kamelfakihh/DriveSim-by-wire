@@ -8,3 +8,31 @@ workloads:
       commandArgs: ["--insecure"]
       commandOptions:
         - "--net=host"
+  vehicledashboard:
+    runtime: podman
+    agent: agent_A
+    runtimeConfig: |
+      image: docker.io/likhithst/vehicle_dashboard:latest
+      commandOptions:
+        - "--net=host"
+        - "-e"
+        - "BROKER_ADDRESS=192.168.1.99"
+        - "-e"
+        - "BROKER_PORT=55555"
+#  evaluater:
+#    runtime: podman
+#    agent: agent_A
+#    runtimeConfig: |
+#      image: {aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa}
+#      commandArgs: ["--insecure"]
+#      commandOptions:
+#        - "--net=host"
+  g29-publisher:
+    runtime: podman
+    agent: agent_B
+    runtimeConfig: |
+      image: docker.io/bleach31/g29-publisher:latest
+      commandOptions:
+        - "--net=host"
+        - "--privileged"
+
