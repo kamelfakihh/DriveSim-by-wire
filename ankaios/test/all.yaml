@@ -1,0 +1,31 @@
+apiVersion: v0.1
+workloads:
+  databroker:
+    runtime: podman
+    agent: agent_A
+    runtimeConfig: |
+      image: ghcr.io/eclipse/kuksa.val/databroker:0.4.1
+      commandArgs: ["--insecure"]
+      commandOptions: ["--net=host"]
+  speed-provider:
+    runtime: podman
+    agent: agent_A
+    dependencies:
+      databroker: ADD_COND_RUNNING
+    runtimeConfig: |
+      image: ghcr.io/eclipse-ankaios/speed-provider:0.1.1
+      commandOptions:
+        - "--net=host"
+        - "-e"
+        - "SPEED_PROVIDER_MODE=auto"
+  speed-consumer:
+    runtime: podman
+    agent: agent_B
+    dependencies:
+      databroker: ADD_COND_RUNNING
+    runtimeConfig: |
+      image: ghcr.io/eclipse-ankaios/speed-consumer:0.1.2
+      commandOptions:
+        - "--net=host"
+        - "-e"
+        - "KUKSA_DATA_BROKER_ADDR=127.0.0.1"
