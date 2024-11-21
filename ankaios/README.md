@@ -49,7 +49,6 @@ please see : https://eclipse-ankaios.github.io/ankaios/latest/usage/installation
    - Git clone and move to `challegers/ankaios` on the second Raspberry Pi.
    - run the following command:
      ```bash
-     chmod +x startup-agent-b.sh
      ./startup-agent-b.sh
      ```
    - This script configures the device as Ankaios Agent B.
@@ -82,7 +81,6 @@ please see : https://eclipse-ankaios.github.io/ankaios/latest/usage/installation
    databroker      agent_A   podman    Running(Ok)
    g29-publisher   agent_B   podman    Running(Ok)
    ```
-1. 
 
 ## Containerizing Applications
 
