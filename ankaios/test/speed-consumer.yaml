@@ -2,7 +2,7 @@ apiVersion: v0.1
 workloads:
   speed-consumer:
     runtime: podman
-    agent: agent_B
+    agent: agent_A
     runtimeConfig: |
       image: ghcr.io/eclipse-ankaios/speed-consumer:0.1.2
       commandOptions:
