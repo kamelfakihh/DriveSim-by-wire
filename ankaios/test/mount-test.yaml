@@ -1,0 +1,13 @@
+apiVersion: v0.1
+workloads:
+  mount-test:
+    runtime: podman
+    agent: agent_A
+    runtimeConfig: |
+      image: ghcr.io/eclipse-ankaios/speed-consumer:0.1.2
+      commandOptions:
+        - "--net=host"
+        - "-e"
+        - "KUKSA_DATA_BROKER_ADDR=127.0.0.1"
+        - "-v"
+        - "/home/chris/challengers/ankaios:/tmp"

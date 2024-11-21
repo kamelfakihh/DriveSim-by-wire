@@ -5,20 +5,25 @@ workloads:
     agent: agent_A
     runtimeConfig: |
       image: ghcr.io/eclipse/kuksa.val/databroker:0.4.1
-      commandArgs: ["--insecure"]
+      commandArgs:
+        - "--insecure"
+        - "--vss"
+        - "/tmp/val.json"
       commandOptions:
         - "--net=host"
-  vehicledashboard:
-    runtime: podman
-    agent: agent_A
-    runtimeConfig: |
-      image: docker.io/likhithst/vehicle_dashboard:latest
-      commandOptions:
-        - "--net=host"
-        - "-e"
-        - "BROKER_ADDRESS=192.168.1.99"
-        - "-e"
-        - "BROKER_PORT=55555"
+        - "-v"
+        - "/home/chris/challengers/ankaios:/tmp"
+#  vehicledashboard:
+#    runtime: podman
+#    agent: agent_A
+#    runtimeConfig: |
+#      image: docker.io/likhithst/vehicle_dashboard:latest
+#      commandOptions:
+#        - "--net=host"
+#        - "-e"
+#        - "BROKER_ADDRESS=192.168.1.99"
+#        - "-e"
+#        - "BROKER_PORT=55555"
 #  evaluater:
 #    runtime: podman
 #    agent: agent_A
