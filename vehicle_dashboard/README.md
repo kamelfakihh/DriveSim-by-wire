@@ -11,10 +11,13 @@ source ./vehicle-dashboard-venv/bin/activate
 pip install -r requirements.txt
 
 # set the following environment variables
-
 export BROKER_ADDRESS="127.0.0.1"
 
 export BROKER_PORT=55555
+ ```
 
+# Run dashboard
+
+```sh
 python main.py
  ```
