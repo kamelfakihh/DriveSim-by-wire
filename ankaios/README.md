@@ -73,7 +73,7 @@ please see : https://eclipse-ankaios.github.io/ankaios/latest/usage/installation
    ```
 1. **Check the deployment**
    ```
-   ank -k get agents
+   ank -k get workloads
    ```
    It should print:
    ```
