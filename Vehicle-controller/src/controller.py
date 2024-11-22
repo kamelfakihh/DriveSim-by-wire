@@ -8,8 +8,19 @@ import time
 
 gamepad = vg.VX360Gamepad()
 
-def fetch_and_update_control(databroker_host, databroker_port, output_file, interval=1, verbose=False):
+def fetch_and_update_control(databroker_host, databroker_port, interval=1, verbose=False):
+    """
+    Reads control signals from the kuksa databroker and passes them as controller input to the game/simulator
 
+    Parameters:
+    databroker_host (string) : Databroker instance hostname or ip address.
+    databroker_port (int)    : Databroker instance port
+    verbose         (boolean): Prints incoming data to STDOUT
+
+    Example:
+    >>> publish_control_signals(127.0.0.1, 5555, True)
+    """
+    
     # Connect to Kuksa Data Broker
     client = VSSClient(databroker_host, databroker_port)
     try:
@@ -66,30 +77,9 @@ def fetch_and_update_control(databroker_host, databroker_port, output_file, inte
             time.sleep(0.2)
             gamepad.press_button(button=vg.XUSB_BUTTON.XUSB_GAMEPAD_A)
             gamepad.update()
-        
-        # if current_gear > gear :
-        #     gamepad.press_button(button=vg.XUSB_BUTTON.XUSB_GAMEPAD_X)
-        #     gamepad.update()
-        #     time.sleep(0.3)
-        #     gamepad.release_button(button=vg.XUSB_BUTTON.XUSB_GAMEPAD_X)
-        #     # gamepad.update()
-        # elif current_gear < gear :
-        #     gamepad.press_button(button=vg.XUSB_BUTTON.XUSB_GAMEPAD_A)
-        #     gamepad.update()
-        #     time.sleep(0.3)
-        #     gamepad.release_button(button=vg.XUSB_BUTTON.XUSB_GAMEPAD_A)
-        #     # gamepad.update()
-
-        # current_gear = gear
-        # brake_light_status = client.get_current_values(['Vehicle.Body.Lights.Brake.IsActive']).get(
-            # 'Vehicle.Body.Lights.Brake.IsActive', {}).value
-
-        # print(steering_angle)
-
-        # print(accel_position, brake_position)
+            
         gamepad.left_trigger(int(brake_position*2.55))
         gamepad.right_trigger(int(accel_position*2.55))
-        # gamepad.left_joystick_float(x_value_float=max(1, min(-1, 2.5*steering_angle)), y_value_float=0.0)
         gamepad.left_joystick_float(x_value_float=steering_angle, y_value_float=0.0)
         gamepad.update()
 
@@ -114,10 +104,6 @@ if __name__ == "__main__":
         help='Port of the Kuksa Data Broker (default: 55555)'
     )
     parser.add_argument(
-        '-o', '--output', type=str, default='telemetry_data.json',
-        help='Output file to store telemetry data (default: telemetry_data.json)'
-    )
-    parser.add_argument(
         '-i', '--interval', type=int, default=1,
         help='Time interval (in seconds) between polling data (default: 1 second)'
     )
@@ -131,7 +117,6 @@ if __name__ == "__main__":
     fetch_and_update_control(
         databroker_host=args.host,
         databroker_port=args.port,
-        output_file=args.output,
         interval=args.interval,
         verbose=args.verbose
     )
