@@ -13,6 +13,17 @@ from AssettoCorsaMemoryMapping import SimInfo
 import time
 
 def read_mem(databroker_host, databroker_port, verbose=False):
+    """
+    Reads telemetry data from assetto corsa then Forwards them to a kuksa databroker according to their respective VSS topics.
+
+    Parameters:
+    databroker_host (string) : Databroker instance hostname or ip address.
+    databroker_port (int)    : Databroker instance port
+    verbose         (boolean): Prints incoming data to STDOUT
+
+    Example:
+    >>> publish_control_signals(127.0.0.1, 5555, True)
+    """
 
     print(f"starting AssettoCorsaClient")
     print(f"sending data to Kuksa databroker instance at host {databroker_host}, port {databroker_port}")
