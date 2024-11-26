@@ -1,5 +1,11 @@
 # DriveSim-by-wire
 
+Mirror of the project that I worked on during Eclipse SDV Hackathon Play-by-wire challenge. 
+
+Link to original repo : [github.com/Eclipse-SDV-Hackathon-Chapter-Two/challengers](https://github.com/Eclipse-SDV-Hackathon-Chapter-Two/challengers.git)
+
+More information about the hackathon : [eclipse-foundation.events/event/EclipseSDVHackathon](https://www.eclipse-foundation.events/event/EclipseSDVHackathon/summary)
+
 ## Introduction
 
 DriveSim-by-wire is a platform designed to seamlessly collect and process control signals from the vehicle's input peripherals, such as the steering wheel and pedals. These control signals can then be used to control a simulation environment (e.g. Asetto Corsa) to evaluate and improve the driver's behaviour and driving techniques. The platform can also provide entertainment for the driver by taking advantage of the vehicle controls to interact with a driving game (or any other game) while the car is parked (e.g. plugged in to charger)
